@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebVision Blog - Web Design, Development & SEO Insights | London</title>
+    <meta name="description" content="Explore the latest insights, trends, and tips on web design, development, and SEO strategies to help your London business grow online.">
+    <meta name="keywords" content="web design blog, web development tips, SEO strategies, digital marketing insights, web trends, WebVision blog, London web design">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://webvision.click/blog.html">
+    <meta property="og:title" content="WebVision Blog - Web Design, Development & SEO Insights">
+    <meta property="og:description" content="Explore the latest insights, trends, and tips on web design, development, and SEO strategies to help your business grow online.">
+    <meta property="og:image" content="https://webvision.click/blog-og-image.jpeg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://webvision.click/blog.html">
+    <meta property="twitter:title" content="WebVision Blog - Web Design, Development & SEO Insights">
+    <meta property="twitter:description" content="Explore the latest insights, trends, and tips on web design, development, and SEO strategies to help your business grow online.">
+    <meta property="twitter:image" content="https://webvision.click/blog-og-image.jpeg">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://webvision.click/blog.html">
+
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+
+    <!-- Schema.org markup for Google -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Blog",
+      "name": "WebVision Blog",
+      "description": "Insights, trends, and tips on web design, development, and SEO strategies",
+      "url": "https://webvision.click/blog.html",
+      "publisher": {
+        "@type": "Organization",
+        "name": "WebVision",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://webvision.click/logo.png"
+        }
+      }
+    }
+    </script>
+
+    <style>
+    /* Global Variables */
+    :root {
+        --primary: #06b6d4;
+        --primary-light: #22d3ee;
+        --primary-dark: #0891b2;
+        --secondary: #f8fafc;
+        --dark: #0f172a;
+        --dark-light: #1e293b;
+        --gray: #64748b;
+        --light-gray: #cbd5e1;
+        --border: #e2e8f0;
+        --radius: 8px;
+        --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        --transition: all 0.3s ease;
+    }
+
+    /* Base Styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        color: var(--dark);
+        line-height: 1.6;
+        overflow-x: hidden;
+    }
+
+    a {
+        text-decoration: none;
+        color: var(--primary);
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        border-radius: var(--radius);
+        font-weight: 500;
+        transition: var(--transition);
+        cursor: pointer;
+        text-align: center;
+    }
+
+    .btn-primary {
+        background-color: var(--primary);
+        color: white;
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background-color: var(--primary-dark);
+    }
+
+    .btn-outline {
+        background-color: transparent;
+        border: 2px solid var(--primary);
+        color: var(--primary);
+    }
+
+    .btn-outline:hover {
+        background-color: var(--primary);
+        color: white;
+    }
+
+    /* Header */
+    .header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 100;
+        background-color: var(--dark);
+        transition: var(--transition);
+    }
+
+    .header.scrolled {
+        background-color: var(--dark);
+        box-shadow: var(--shadow);
+    }
+
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.5rem 0;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        color: white;
+        font-size: 1.5rem;
+        font-weight: 700;
+    }
+
+    .logo:hover {
+        color: var(--primary);
+    }
+
+    .nav-menu {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    .nav-list {
+        display: flex;
+        gap: 2rem;
+        list-style: none;
+    }
+
+    .nav-link {
+        color: var(--primary);
+        font-weight: 500;
+        transition: var(--transition);
+    }
+
+    .nav-link:hover {
+        color: var(--primary-light);
+    }
+
+    .menu-toggle {
+        display: none;
+        flex-direction: column;
+        gap: 6px;
+        cursor: pointer;
+        z-index: 101;
+    }
+
+    .bar {
+        width: 30px;
+        height: 3px;
+        background-color: white;
+        transition: var(--transition);
+    }
+
+    .menu-toggle.active .bar:nth-child(1) {
+        transform: translateY(9px) rotate(45deg);
+    }
+
+    .menu-toggle.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+
+    .menu-toggle.active .bar:nth-child(3) {
+        transform: translateY(-9px) rotate(-45deg);
+    }
+
+    /* Page Transition */
+    .page-transition-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: var(--dark);
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.5s ease;
+    }
+
+    .loader {
+        width: 40px;
+        height: 40px;
+        border: 4px solid rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        border-top-color: var(--primary);
+        animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    /* Blog Header */
+    .blog-header {
+        padding: 8rem 0 3rem;
+        background: linear-gradient(135deg, var(--dark) 0%, var(--dark-light) 100%);
+        color: white;
+        text-align: center;
+    }
+
+    .blog-title {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    .blog-description {
+        font-size: 1.25rem;
+        max-width: 800px;
+        margin: 0 auto 2rem;
+        opacity: 0.9;
+    }
+
+    /* Blog Layout */
+    .blog-layout {
+        display: flex;
+        gap: 2rem;
+        padding: 4rem 0;
+    }
+
+    .blog-main {
+        flex: 1;
+    }
+
+    /* Blog Posts */
+    .blog-posts {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+
+    .blog-post {
+        background-color: white;
+        border-radius: var(--radius);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .blog-post:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .post-image {
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+    }
+
+    .post-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .blog-post:hover .post-image img {
+        transform: scale(1.05);
+    }
+
+    .post-content {
+        padding: 1.5rem;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .post-meta {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        font-size: 0.875rem;
+        color: var(--gray);
+    }
+
+    .post-category {
+        background-color: var(--primary-light);
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .post-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: var(--dark);
+    }
+
+    .post-excerpt {
+        color: var(--gray);
+        margin-bottom: 1.5rem;
+        flex-grow: 1;
+    }
+
+    .post-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 500;
+        transition: gap 0.3s ease;
+        margin-top: auto;
+    }
+
+    .post-link:hover {
+        gap: 0.75rem;
+    }
+
+    /* Featured Post */
+    .featured-post {
+        margin-bottom: 3rem;
+        background-color: white;
+        border-radius: var(--radius);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+    }
+
+    .featured-post-content {
+        padding: 2rem;
+    }
+
+    .featured-label {
+        display: inline-block;
+        background-color: var(--primary);
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 1rem;
+    }
+
+    .featured-title {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: var(--dark);
+    }
+
+    /* Breadcrumbs */
+    .breadcrumbs {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 2rem;
+        font-size: 0.875rem;
+        color: var(--gray);
+    }
+
+    .breadcrumb-item {
+        display: flex;
+        align-items: center;
+    }
+
+    .breadcrumb-separator {
+        margin: 0 0.5rem;
+    }
+
+    /* Newsletter */
+    .newsletter {
+        background-color: var(--primary-light);
+        padding: 4rem 0;
+        color: white;
+        text-align: center;
+    }
+
+    .newsletter-title {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    .newsletter-description {
+        font-size: 1.125rem;
+        max-width: 600px;
+        margin: 0 auto 2rem;
+        opacity: 0.9;
+    }
+
+    .newsletter-form {
+        display: flex;
+        max-width: 500px;
+        margin: 0 auto;
+        gap: 0.5rem;
+    }
+
+    .newsletter-input {
+        flex: 1;
+        padding: 0.75rem 1rem;
+        border: none;
+        border-radius: var(--radius);
+        font-size: 1rem;
+    }
+
+    .newsletter-input:focus {
+        outline: none;
+    }
+
+    /* Footer */
+    .footer {
+        background-color: var(--dark);
+        color: white;
+        padding: 5rem 0 0;
+    }
+
+    .footer-top {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 3rem;
+        margin-bottom: 3rem;
+    }
+
+    .footer-logo {
+        margin-bottom: 1.5rem;
+        color: white;
+        font-size: 1.5rem;
+        font-weight: 700;
+    }
+
+    .footer-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        position: relative;
+        padding-bottom: 0.75rem;
+    }
+
+    .footer-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 50px;
+        height: 2px;
+        background-color: var(--primary);
+    }
+
+    .contact-info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    .contact-info i {
+        color: var(--primary);
+    }
+
+    .contact-info a {
+        color: rgba(255, 255, 255, 0.7);
+        transition: color 0.3s ease;
+    }
+
+    .contact-info a:hover {
+        color: var(--primary);
+    }
+
+    .footer-nav {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .footer-nav li {
+        margin-bottom: 0.75rem;
+    }
+
+    .footer-nav a {
+        color: rgba(255, 255, 255, 0.7);
+        transition: color 0.3s ease;
+    }
+
+    .footer-nav a:hover {
+        color: var(--primary);
+    }
+
+    .social-icons {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .social-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .social-icon:hover {
+        background-color: var(--primary);
+        color: white;
+    }
+
+    .footer-bottom {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 2rem 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .copyright {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.875rem;
+    }
+
+    .footer-legal {
+        display: flex;
+        gap: 1.5rem;
+    }
+
+    .footer-legal a {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.875rem;
+        transition: color 0.3s ease;
+    }
+
+    .footer-legal a:hover {
+        color: var(--primary);
+    }
+
+    /* Back to Top Button */
+    #back-to-top {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 50px;
+        height: 50px;
+        background-color: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+        box-shadow: var(--shadow);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease, background-color 0.3s ease;
+        z-index: 99;
+    }
+
+    #back-to-top.visible {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    #back-to-top:hover {
+        background-color: var(--primary-dark);
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 1024px) {
+        .blog-title {
+            font-size: 2.5rem;
+        }
+        
+        .featured-title {
+            font-size: 1.75rem;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .nav-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            max-width: 400px;
+            height: 100vh;
+            background-color: var(--dark);
+            flex-direction: column;
+            justify-content: center;
+            padding: 2rem;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            transition: right 0.3s ease;
+            z-index: 100;
+        }
+        
+        .nav-menu.active {
+            right: 0;
+        }
+        
+        .nav-list {
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .menu-toggle {
+            display: flex;
+        }
+        
+        .newsletter-form {
+            flex-direction: column;
+        }
+        
+        .footer-bottom {
+            flex-direction: column;
+            gap: 1rem;
+            text-align: center;
+        }
+        
+        .footer-legal {
+            justify-content: center;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .blog-title {
+            font-size: 2rem;
+        }
+        
+        .blog-description {
+            font-size: 1rem;
+        }
+        
+        .featured-title {
+            font-size: 1.5rem;
+        }
+        
+        .post-title {
+            font-size: 1.25rem;
+        }
+    }
+    </style>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div class="page-transition-overlay">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header scrolled" id="header">
+        <div class="container">
+            <div class="navbar">
+                <a href="index.html" class="logo">
+                    WebVision
+                </a>
+                <div class="menu-toggle" id="menu-toggle">
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                </div>
+                <nav class="nav-menu" id="nav-menu">
+                    <ul class="nav-list">
+                        <li><a href="index.html" class="nav-link">Home</a></li>
+                        <li><a href="index.html#services" class="nav-link">Services</a></li>
+                        <li><a href="index.html#portfolio" class="nav-link">Portfolio</a></li>
+                        <li><a href="index.html#about" class="nav-link">About</a></li>
+                        <li><a href="blog.html" class="nav-link">Blog</a></li>
+                        <li><a href="contact.html" class="nav-link">Contact</a></li>
+                    </ul>
+                    <a href="get-started.html" class="btn btn-primary nav-cta">Get a Quote</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Blog Header -->
+    <section class="blog-header">
+        <div class="container">
+            <h1 class="blog-title">WebVision Blog</h1>
+            <p class="blog-description">
+                Insights, trends, and tips on web design, development, and SEO strategies to help your business succeed online.
+            </p>
+        </div>
+    </section>
+
+    <!-- Blog Content -->
+    <div class="container">
+        <!-- Breadcrumbs -->
+        <div class="breadcrumbs">
+            <div class="breadcrumb-item">
+                <a href="index.html">Home</a>
+            </div>
+            <div class="breadcrumb-separator">
+                <i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="breadcrumb-item">
+                <span>Blog</span>
+            </div>
+        </div>
+
+        <!-- Blog Layout -->
+        <div class="blog-main">
+            <!-- Blog Posts Grid -->
+            <div class="blog-posts">
+                <!-- Post 1 -->
+                <article class="blog-post">
+                    <div class="post-image">
+                        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-05-13%20at%2004.33.19%20%285%29-9ireqSHGfSp8HBy5UZPnVCkqbWljHJ.jpeg" alt="Website launch checklist with SSL certificate, mobile-friendly test, clear contact info, SEO basics, and speed check">
+                    </div>
+                    <div class="post-content">
+                        <span class="post-category">Web Development</span>
+                        <h3 class="post-title">
+                            <a href="blog-post-launch-checklist.html">Don't Launch Without This: Essential Website Checklist</a>
+                        </h3>
+                        <div class="post-meta">
+                            <span><i class="far fa-calendar"></i> May 10, 2025</span>
+                            <span><i class="far fa-user"></i> By WebVision Team</span>
+                        </div>
+                        <p class="post-excerpt">
+                            Before launching your website, ensure you've covered these critical elements: SSL certificate, mobile-friendly testing, clear contact information, SEO basics, and website speed optimization.
+                        </p>
+                        <a href="blog-post-launch-checklist.html" class="post-link">
+                            Read More
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Post 3 -->
+                <article class="blog-post">
+                    <div class="post-image">
+                        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-05-13%20at%2004.33.19%20%283%29-yWZ79mxhsaZImlhiXBC1ncrxbWPgVC.jpeg" alt="Illustration showing how people scan websites rather than reading them completely">
+                    </div>
+                    <div class="post-content">
+                        <span class="post-category">UX Design</span>
+                        <h3 class="post-title">
+                            <a href="blog-post-website-scanning.html">People Don't Read Websites. They Scan Them. Make It Easy.</a>
+                        </h3>
+                        <div class="post-meta">
+                            <span><i class="far fa-calendar"></i> April 28, 2025</span>
+                            <span><i class="far fa-user"></i> By WebVision Team</span>
+                        </div>
+                        <p class="post-excerpt">
+                            Research shows that users scan web pages instead of reading word-by-word. Learn how to optimize your content with clear headings, bullet points, and visual hierarchy to improve user engagement.
+                        </p>
+                        <a href="blog-post-website-scanning.html" class="post-link">
+                            Read More
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Post 4 -->
+                <article class="blog-post">
+                    <div class="post-image">
+                        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-05-13%20at%2004.33.20-x9OIyvEffrtkfZc1O5sVlZC4hoYc2Y.jpeg" alt="Person typing on laptop with text 'What's your website really saying?'">
+                    </div>
+                    <div class="post-content">
+                        <span class="post-category">Content Strategy</span>
+                        <h3 class="post-title">
+                            <a href="blog-post-website-messaging.html">What's Your Website Really Saying? The Hidden Messages in Your Design</a>
+                        </h3>
+                        <div class="post-meta">
+                            <span><i class="far fa-calendar"></i> April 20, 2025</span>
+                            <span><i class="far fa-user"></i> By WebVision Team</span>
+                        </div>
+                        <p class="post-excerpt">
+                            Your website communicates more than just words. Discover how design elements, color choices, typography, and layout send subtle messages to visitors about your brand's credibility and values.
+                        </p>
+                        <a href="blog-post-website-messaging.html" class="post-link">
+                            Read More
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- 
+                <article class="blog-post">
+                    <div class="post-image">
+                        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-05-13%20at%2004.33.20%20%281%29-LhLL7U1vyDPIZvdNIb3ZZUKzXFTxUB.jpeg" alt="3 signs it's time for a website redesign: not mobile-friendly, embarrassed to share the link, haven't updated in 3+ years">
+                    </div>
+                    <div class="post-content">
+                        <span class="post-category">Web Design</span>
+                        <h3 class="post-title">
+                            <a href="blog-post-website-redesign.html">3 Signs It's Time for a Website Redesign</a>
+                        </h3>
+                        <div class="post-meta">
+                            <span><i class="far fa-calendar"></i> April 15, 2025</span>
+                            <span><i class="far fa-user"></i> By WebVision Team</span>
+                        </div>
+                        <p class="post-excerpt">
+                            Is your website holding your business back? Learn the three telltale signs that indicate it's time for a redesign: poor mobile experience, outdated appearance, and lack of updates for over three years.
+                        </p>
+                        <a href="blog-post-website-redesign.html" class="post-link">
+                            Read More
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <article class="blog-post">
+                    <div class="post-image">
+                        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-05-13%20at%2004.33.19%20%282%29-QBwpSwSCpTXOA4yRu82WNov2EeWCHh.jpeg" alt="5 must-haves for a high-converting homepage: clear headline, trust signals, strong CTA, clean design, mobile optimization">
+                    </div>
+                    <div class="post-content">
+                        <span class="post-category">Conversion Optimization</span>
+                        <h3 class="post-title">
+                            <a href="blog-post-high-converting-homepage.html">5 Must-Haves for a High-Converting Homepage</a>
+                        </h3>
+                        <div class="post-meta">
+                            <span><i class="far fa-calendar"></i> April 8, 2025</span>
+                            <span><i class="far fa-user"></i> By WebVision Team</span>
+                        </div>
+                        <p class="post-excerpt">
+                            Transform your homepage into a conversion machine with these five essential elements: a clear headline, trust signals, strong call-to-action, clean design, and mobile optimization.
+                        </p>
+                        <a href="blog-post-high-converting-homepage.html" class="post-link">
+                            Read More
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                 
+                <article class="blog-post">
+                    <div class="post-image">
+                        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-05-13%20at%2004.33.19-fQIXp5JR72BOBxXFj17SyWwn9clFCS.jpeg" alt="70% of small business websites lack a clear CTA (call to action)">
+                    </div>
+                    <div class="post-content">
+                        <span class="post-category">Business Growth</span>
+                        <h3 class="post-title">
+                            <a href="blog-post-clear-cta.html">70% of Small Business Websites Lack a Clear CTA: Don't Make This Mistake</a>
+                        </h3>
+                        <div class="post-meta">
+                            <span><i class="far fa-calendar"></i> April 1, 2025</span>
+                            <span><i class="far fa-user"></i> By WebVision Team</span>
+                        </div>
+                        <p class="post-excerpt">
+                            A shocking 70% of small business websites are missing a clear call-to-action, leaving potential customers confused about next steps. Learn how to create effective CTAs that drive conversions.
+                        </p>
+                        <a href="blog-post-clear-cta.html" class="post-link">
+                            Read More
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <article class="blog-post">
+                    <div class="post-image">
+                        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-05-13%20at%2004.33.19%20%281%29-NvHEVB57jHsc7395kwDQoIFHU3LdnU.jpeg" alt="Dark mode vs light mode interface comparison showing user preferences">
+                    </div>
+                    <div class="post-content">
+                        <span class="post-category">User Experience</span>
+                        <h3 class="post-title">
+                            <a href="blog-post-dark-mode-light-mode.html">Dark Mode vs Light Mode: Which Do Users Prefer and Why?</a>
+                        </h3>
+                        <div class="post-meta">
+                            <span><i class="far fa-calendar"></i> March 25, 2025</span>
+                            <span><i class="far fa-user"></i> By WebVision Team</span>
+                        </div>
+                        <p class="post-excerpt">
+                            The dark mode vs light mode debate continues. We explore user preferences, accessibility considerations, and when to implement each option to enhance your website's user experience.
+                        </p>
+                        <a href="blog-post-dark-mode-light-mode.html" class="post-link">
+                            Read More
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article> -->
+            </div>
+
+            <!-- Pagination 
+            <div class="pagination">
+                <a href="#" class="page-link active">1</a>
+                <a href="#" class="page-link">2</a>
+                <a href="#" class="page-link">3</a>
+                <a href="#" class="page-link">
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            </div> -->
+        </div>
+    </div>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter">
+        <div class="container">
+            <h2 class="newsletter-title">Subscribe to Our Newsletter</h2>
+            <p class="newsletter-description">
+                Stay updated with the latest insights, trends, and tips on web design, development, and SEO strategies.
+            </p>
+            <form class="newsletter-form" action="https://formspree.io/f/myzwnqyp" method="POST">
+                <input type="email" name="email" class="newsletter-input" placeholder="Enter your email address" required>
+                <button type="submit" class="btn btn-primary">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div>
+                    <div class="footer-logo">
+                        WebVision
+                    </div>
+                    <p>
+                        We create stunning, high-performance websites that help businesses establish a strong online presence and drive growth.
+                    </p>
+                </div>
+                <div class="footer-contact">
+                    <h3 class="footer-title">Contact Us</h3>
+                    <p class="contact-info">
+                        <i class="fas fa-envelope"></i>
+                        <a href="mailto:info@webvision.click">webvision505@gmail.com</a>
+                    </p>
+                    <p class="contact-info">
+                        <i class="fas fa-phone"></i>
+                        <a href="tel:+447745843292">+44 7745 843292</a>
+                    </p>
+                    <p class="contact-info">
+                        <i class="fas fa-map-marker-alt"></i>
+                        London, UK
+                    </p>
+                </div>
+                <div class="footer-links">
+                    <h3 class="footer-title">Quick Links</h3>
+                    <ul class="footer-nav">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#services">Services</a></li>
+                        <li><a href="index.html#portfolio">Portfolio</a></li>
+                        <li><a href="index.html#about">About</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h3 class="footer-title">Follow Us</h3>
+                    <div class="social-icons">
+                        <a href="https://www.facebook.com/share/19Gi5nnpxk/?mibextid=wwXIfr" class="social-icon">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://x.com/webvision505?s=21" class="social-icon">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://www.instagram.com/webvision_official?igsh=aTFkZ25hdHRjd29m&utm_source=qr" class="social-icon">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/abdul-ibrahim-39b266308?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" class="social-icon">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="copyright">
+                    &copy; <span id="current-year">2025</span> <a href="index.html">WebVision</a> All rights reserved.
+                </p>
+                <div class="footer-legal">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" title="Back to Top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- JavaScript -->
+    <script>
+    // Page Transition
+    document.addEventListener('DOMContentLoaded', function() {
+        // Hide loading overlay after page loads
+        setTimeout(function() {
+            const pageTransitionOverlay = document.querySelector('.page-transition-overlay');
+            if (pageTransitionOverlay) {
+                pageTransitionOverlay.style.opacity = '0';
+                setTimeout(function() {
+                    pageTransitionOverlay.style.display = 'none';
+                }, 500);
+            }
+        }, 500);
+
+        // Mobile Menu Toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const navMenu = document.getElementById('nav-menu');
+        
+        if (menuToggle && navMenu) {
+            menuToggle.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+                this.classList.toggle('active');
+            });
+        }
+
+        // Smooth Scroll for Anchor Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const targetId = this.getAttribute('href');
+                
+                if (targetId !== '#') {
+                    e.preventDefault();
+                    
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+
+        // Header Scroll Effect
+        const header = document.getElementById('header');
+        
+        if (header) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+        }
+
+        // Set current year in footer
+        const currentYearElement = document.getElementById('current-year');
+        
+        if (currentYearElement) {
+            currentYearElement.textContent = new Date().getFullYear();
+        }
+
+        // Back to top button
+        const backToTopButton = document.getElementById('back-to-top');
+        
+        // Show/hide button based on scroll position
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+        
+        // Scroll to top when button is clicked
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    });
+    </script>
+</body>
+</html>
