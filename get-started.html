@@ -1005,628 +1005,747 @@
 
     <!-- Hidden iframe for form submission -->
     <iframe name="hidden-iframe" class="hidden-iframe" id="hidden-iframe"></iframe>
-
+<script>
     <!-- JavaScript -->
-    <script>
-        // Loading Screen
-        document.addEventListener('DOMContentLoaded', function() {
-            const loadingScreen = document.getElementById('loading-screen');
-            const loadingBar = document.getElementById('loading-bar');
-            
-            // Animate loading bar
-            setTimeout(() => {
-                loadingBar.style.width = '100%';
-            }, 100);
-            
-            // Hide loading screen after 3 seconds
-            setTimeout(() => {
-                loadingScreen.classList.add('hidden');
-                document.body.style.overflow = 'auto'; // Enable scrolling
-            }, 3000);
-        });
+   // Loading Screen
+document.addEventListener('DOMContentLoaded', function() {
+    const loadingScreen = document.getElementById('loading-screen');
+    const loadingBar = document.getElementById('loading-bar');
+    
+    // Animate loading bar
+    setTimeout(() => {
+        loadingBar.style.width = '100%';
+    }, 100);
+    
+    // Hide loading screen after 3 seconds
+    setTimeout(() => {
+        loadingScreen.classList.add('hidden');
+        document.body.style.overflow = 'auto'; // Enable scrolling
+    }, 3000);
+});
+
+// Mobile menu
+document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+    document.getElementById('mobile-menu').classList.add('active');
+});
+
+document.getElementById('mobile-menu-close').addEventListener('click', function() {
+    document.getElementById('mobile-menu').classList.remove('active');
+});
+
+// Close mobile menu when clicking a link
+document.querySelectorAll('.mobile-nav-link').forEach(link => {
+    link.addEventListener('click', function() {
+        document.getElementById('mobile-menu').classList.remove('active');
+    });
+});
+
+// Chat functionality
+const chatLog = document.getElementById('chat-log');
+const userInput = document.getElementById('user-input');
+const submitButton = document.getElementById('submit-button');
+const progressBar = document.getElementById('progress-bar');
+
+// User data object
+let userData = {
+    name: '',
+    email: '',
+    phone: '',
+    businessName: '',
+    businessType: '',
+    monthlyRevenue: '',
+    websiteGoals: [],
+    existingWebsite: '',
+    competitorWebsites: '',
+    timeline: '',
+    budget: 0,
+    features: [],
+    additionalInfo: ''
+};
+
+// Define all questions with enhanced options
+const questions = [
+    {
+        id: 'intro',
+        text: "Hello! I'm WebVision's AI assistant, here to help you create your perfect website. What's your name?",
+        type: 'text',
+        field: 'name',
+        required: true
+    },
+    {
+        id: 'email',
+        text: "Great to meet you, {name}! What's your email address so we can contact you?",
+        type: 'email',
+        field: 'email',
+        required: true,
+        validation: function(value) {
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailPattern.test(value);
+        },
+        errorMessage: "Please enter a valid email address."
+    },
+    {
+        id: 'phone',
+        text: "Thanks, {name}. Could you please provide your phone number?",
+        type: 'tel',
+        field: 'phone',
+        required: true
+    },
+    {
+        id: 'businessName',
+        text: "What's the name of your business or organization?",
+        type: 'text',
+        field: 'businessName',
+        required: true
+    },
+    {
+        id: 'businessType',
+        text: "What type of business or industry are you in?",
+        type: 'options',
+        field: 'businessType',
+        options: [
+            'E-commerce / Retail',
+            'Professional Services',
+            'Healthcare',
+            'Education',
+            'Food & Hospitality',
+            'Technology',
+            'Real Estate',
+            'Non-profit',
+            'Other'
+        ],
+        required: true
+    },
+    {
+        id: 'monthlyRevenue',
+        text: "What's your approximate monthly revenue? This helps us understand the scale of your business and tailor our solutions accordingly.",
+        type: 'options',
+        field: 'monthlyRevenue',
+        options: [
+            'Pre-revenue / Startup',
+            '£1,000 - £5,000 per month',
+            '£5,000 - £10,000 per month',
+            '£10,000 - £25,000 per month',
+            '£25,000 - £50,000 per month',
+            '£50,000+ per month',
+            'Prefer not to say'
+        ],
+        required: true
+    },
+    {
+        id: 'websiteGoals',
+        text: "What are your primary goals for your new website? (Select all that apply)",
+        type: 'multiselect',
+        field: 'websiteGoals',
+        options: [
+            'Increase online sales',
+            'Generate leads',
+            'Build brand awareness',
+            'Provide information',
+            'Improve customer service',
+            'Establish credibility',
+            'Expand to new markets'
+        ],
+        required: true
+    },
+    {
+        id: 'existingWebsite',
+        text: "Do you have an existing website? If yes, please share the URL.",
+        type: 'text',
+        field: 'existingWebsite',
+        required: false
+    },
+    {
+        id: 'competitorWebsites',
+        text: "Are there any competitor websites or designs that inspire you? Please share URLs or describe what you like about them.",
+        type: 'textarea',
+        field: 'competitorWebsites',
+        required: false
+    },
+    {
+        id: 'timeline',
+        text: "What's your timeline for completing this project?",
+        type: 'options',
+        field: 'timeline',
+        options: [
+            'As soon as possible',
+            'Within 1 month',
+            'Within 3 months',
+            'Within 6 months',
+            'No specific timeline'
+        ],
+        required: true
+    },
+   // {
+   //   id: 'budget',
+   //    text: "What's your budget range for this project? Our professional websites start from £1,200.",
+   //   type: 'slider',
+   //  field: 'budget',
+   //   min: 1200,
+   //   max: 10000,
+   //   step: 100,
+   //   defaultValue: 3000,
+   //   required: true
+   // },
+    {
+        id: 'features',
+        text: "Which features would you like to include on your website? (Select all that apply)",
+        type: 'multiselect',
+        field: 'features',
+        options: [
+            'Contact form',
+            'Blog/News section',
+            'E-commerce/Online store',
+            'Portfolio/Gallery',
+            'Appointment booking',
+            'User accounts/Login',
+            'Newsletter signup',
+            'Social media integration',
+            'Live chat',
+            'Custom CMS (Content Management System)',
+            'Multilingual support'
+        ],
+        required: true
+    },
+    {
+        id: 'additionalInfo',
+        text: "Is there anything else you'd like us to know about your project?",
+        type: 'textarea',
+        field: 'additionalInfo',
+        required: false
+    }
+];
+
+let currentQuestionIndex = 0;
+
+function getCurrentTime() {
+    const now = new Date();
+    let hours = now.getHours();
+    const minutes = now.getMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    
+    return `${hours}:${minutes < 10 ? '0' + minutes : minutes} ${ampm}`;
+}
+
+function displayMessage(sender, message) {
+    const messageElement = document.createElement('div');
+    messageElement.classList.add('chat-message', sender);
+    
+    const messageBubble = document.createElement('div');
+    messageBubble.classList.add('message-bubble');
+    messageBubble.innerHTML = message;
+    
+    const messageTime = document.createElement('div');
+    messageTime.classList.add('message-time');
+    messageTime.textContent = getCurrentTime();
+    
+    messageElement.appendChild(messageBubble);
+    messageElement.appendChild(messageTime);
+    
+    chatLog.appendChild(messageElement);
+    chatLog.scrollTop = chatLog.scrollHeight;
+    
+    return messageElement;
+}
+
+function displayTypingIndicator() {
+    const typingElement = document.createElement('div');
+    typingElement.classList.add('analyzing-message');
+    typingElement.id = 'typing-indicator';
+    
+    typingElement.innerHTML = `
+        <span>AI is typing</span>
+        <div class="typing-indicator">
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+        </div>
+    `;
+    
+    chatLog.appendChild(typingElement);
+    chatLog.scrollTop = chatLog.scrollHeight;
+    
+    return typingElement;
+}
+
+function removeTypingIndicator() {
+    const typingIndicator = document.getElementById('typing-indicator');
+    if (typingIndicator) {
+        typingIndicator.remove();
+    }
+}
+
+function updateProgressBar() {
+    const progress = ((currentQuestionIndex) / questions.length) * 100;
+    progressBar.style.width = `${progress}%`;
+}
+
+function formatQuestionText(text) {
+    // Replace placeholders with actual values
+    let formattedText = text;
+    
+    if (userData.name) {
+        formattedText = formattedText.replace('{name}', userData.name);
+    }
+    
+    return formattedText;
+}
+
+function createOptionButtons(options, isMultiSelect = false, field) {
+    const optionsContainer = document.createElement('div');
+    optionsContainer.className = 'form-options';
+    
+    options.forEach(option => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'option-button';
+        button.textContent = option;
         
-        // Mobile menu
-        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
-            document.getElementById('mobile-menu').classList.add('active');
-        });
-        
-        document.getElementById('mobile-menu-close').addEventListener('click', function() {
-            document.getElementById('mobile-menu').classList.remove('active');
-        });
-        
-        // Close mobile menu when clicking a link
-        document.querySelectorAll('.mobile-nav-link').forEach(link => {
-            link.addEventListener('click', function() {
-                document.getElementById('mobile-menu').classList.remove('active');
+        if (isMultiSelect) {
+            button.addEventListener('click', function() {
+                button.classList.toggle('selected');
             });
-        });
-        
-        // Chat functionality
-        const chatLog = document.getElementById('chat-log');
-        const userInput = document.getElementById('user-input');
-        const submitButton = document.getElementById('submit-button');
-        const progressBar = document.getElementById('progress-bar');
-        
-        // User data object
-        let userData = {
-            name: '',
-            email: '',
-            phone: '',
-            businessName: '',
-            businessType: '',
-            monthlyRevenue: '',
-            websiteGoals: [],
-            existingWebsite: '',
-            competitorWebsites: '',
-            timeline: '',
-            budget: 0,
-            features: [],
-            additionalInfo: ''
-        };
-        
-        // Define all questions with enhanced options
-        const questions = [
-            {
-                id: 'intro',
-                text: "Hello! I'm WebVision's AI assistant, here to help you create your perfect website. What's your name?",
-                type: 'text',
-                field: 'name',
-                required: true
-            },
-            {
-                id: 'email',
-                text: "Great to meet you, {name}! What's your email address so we can contact you?",
-                type: 'email',
-                field: 'email',
-                required: true,
-                validation: function(value) {
-                    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                    return emailPattern.test(value);
-                },
-                errorMessage: "Please enter a valid email address."
-            },
-            {
-                id: 'phone',
-                text: "Thanks, {name}. Could you please provide your phone number?",
-                type: 'tel',
-                field: 'phone',
-                required: true
-            },
-            {
-                id: 'businessName',
-                text: "What's the name of your business or organization?",
-                type: 'text',
-                field: 'businessName',
-                required: true
-            },
-            {
-                id: 'businessType',
-                text: "What type of business or industry are you in?",
-                type: 'options',
-                field: 'businessType',
-                options: [
-                    'E-commerce / Retail',
-                    'Professional Services',
-                    'Healthcare',
-                    'Education',
-                    'Food & Hospitality',
-                    'Technology',
-                    'Real Estate',
-                    'Non-profit',
-                    'Other'
-                ],
-                required: true
-            },
-            {
-                id: 'monthlyRevenue',
-                text: "What's your approximate monthly revenue? This helps us understand the scale of your business and tailor our solutions accordingly.",
-                type: 'options',
-                field: 'monthlyRevenue',
-                options: [
-                    'Pre-revenue / Startup',
-                    '£1,000 - £5,000 per month',
-                    '£5,000 - £10,000 per month',
-                    '£10,000 - £25,000 per month',
-                    '£25,000 - £50,000 per month',
-                    '£50,000+ per month',
-                    'Prefer not to say'
-                ],
-                required: true
-            },
-            {
-                id: 'websiteGoals',
-                text: "What are your primary goals for your new website? (Select all that apply)",
-                type: 'multiselect',
-                field: 'websiteGoals',
-                options: [
-                    'Increase online sales',
-                    'Generate leads',
-                    'Build brand awareness',
-                    'Provide information',
-                    'Improve customer service',
-                    'Establish credibility',
-                    'Expand to new markets'
-                ],
-                required: true
-            },
-            {
-                id: 'existingWebsite',
-                text: "Do you have an existing website? If yes, please share the URL.",
-                type: 'text',
-                field: 'existingWebsite',
-                required: false
-            },
-            {
-                id: 'competitorWebsites',
-                text: "Are there any competitor websites or designs that inspire you? Please share URLs or describe what you like about them.",
-                type: 'textarea',
-                field: 'competitorWebsites',
-                required: false
-            },
-            {
-                id: 'timeline',
-                text: "What's your timeline for completing this project?",
-                type: 'options',
-                field: 'timeline',
-                options: [
-                    'As soon as possible',
-                    'Within 1 month',
-                    'Within 3 months',
-                    'Within 6 months',
-                    'No specific timeline'
-                ],
-                required: true
-            },
-           // {
-               //   id: 'budget',
-              //    text: "What's your budget range for this project? Our professional websites start from £1,200.",
-               //   type: 'slider',
-                //  field: 'budget',
-               //   min: 1200,
-               //   max: 10000,
-               //   step: 100,
-               //   defaultValue: 3000,
-               //   required: true
-             // },
-            {
-                id: 'features',
-                text: "Which features would you like to include on your website? (Select all that apply)",
-                type: 'multiselect',
-                field: 'features',
-                options: [
-                    'Contact form',
-                    'Blog/News section',
-                    'E-commerce/Online store',
-                    'Portfolio/Gallery',
-                    'Appointment booking',
-                    'User accounts/Login',
-                    'Newsletter signup',
-                    'Social media integration',
-                    'Live chat',
-                    'Custom CMS (Content Management System)',
-                    'Multilingual support'
-                ],
-                required: true
-            },
-            {
-                id: 'additionalInfo',
-                text: "Is there anything else you'd like us to know about your project?",
-                type: 'textarea',
-                field: 'additionalInfo',
-                required: false
-            }
-        ];
-        
-        let currentQuestionIndex = 0;
-        
-        function getCurrentTime() {
-            const now = new Date();
-            let hours = now.getHours();
-            const minutes = now.getMinutes();
-            const ampm = hours >= 12 ? 'PM' : 'AM';
-            
-            hours = hours % 12;
-            hours = hours ? hours : 12; // the hour '0' should be '12'
-            
-            return `${hours}:${minutes < 10 ? '0' + minutes : minutes} ${ampm}`;
-        }
-        
-        function displayMessage(sender, message) {
-            const messageElement = document.createElement('div');
-            messageElement.classList.add('chat-message', sender);
-            
-            const messageBubble = document.createElement('div');
-            messageBubble.classList.add('message-bubble');
-            messageBubble.innerHTML = message;
-            
-            const messageTime = document.createElement('div');
-            messageTime.classList.add('message-time');
-            messageTime.textContent = getCurrentTime();
-            
-            messageElement.appendChild(messageBubble);
-            messageElement.appendChild(messageTime);
-            
-            chatLog.appendChild(messageElement);
-            chatLog.scrollTop = chatLog.scrollHeight;
-            
-            return messageElement;
-        }
-        
-        function displayTypingIndicator() {
-            const typingElement = document.createElement('div');
-            typingElement.classList.add('analyzing-message');
-            typingElement.id = 'typing-indicator';
-            
-            typingElement.innerHTML = `
-                <span>AI is typing</span>
-                <div class="typing-indicator">
-                    <div class="typing-dot"></div>
-                    <div class="typing-dot"></div>
-                    <div class="typing-dot"></div>
-                </div>
-            `;
-            
-            chatLog.appendChild(typingElement);
-            chatLog.scrollTop = chatLog.scrollHeight;
-            
-            return typingElement;
-        }
-        
-        function removeTypingIndicator() {
-            const typingIndicator = document.getElementById('typing-indicator');
-            if (typingIndicator) {
-                typingIndicator.remove();
-            }
-        }
-        
-        function updateProgressBar() {
-            const progress = ((currentQuestionIndex) / questions.length) * 100;
-            progressBar.style.width = `${progress}%`;
-        }
-        
-        function formatQuestionText(text) {
-            // Replace placeholders with actual values
-            let formattedText = text;
-            
-            if (userData.name) {
-                formattedText = formattedText.replace('{name}', userData.name);
-            }
-            
-            return formattedText;
-        }
-        
-        function createOptionButtons(options, isMultiSelect = false, field) {
-            const optionsContainer = document.createElement('div');
-            optionsContainer.className = 'form-options';
-            
-            options.forEach(option => {
-                const button = document.createElement('button');
-                button.type = 'button';
-                button.className = 'option-button';
-                button.textContent = option;
-                
-                if (isMultiSelect) {
-                    button.addEventListener('click', function() {
-                        button.classList.toggle('selected');
-                    });
-                } else {
-                    button.addEventListener('click', function() {
-                        // For single select, remove selection from all buttons
-                        optionsContainer.querySelectorAll('.option-button').forEach(btn => {
-                            btn.classList.remove('selected');
-                        });
-                        button.classList.add('selected');
-                        
-                        // For single select options, submit automatically after selection
-                        if (field !== 'websiteGoals' && field !== 'features') {
-                            setTimeout(() => {
-                                const selectedOption = button.textContent;
-                                handleUserResponse(selectedOption);
-                            }, 500);
-                        }
-                    });
-                }
-                
-                optionsContainer.appendChild(button);
-            });
-            
-            if (isMultiSelect) {
-                // Add a "Continue" button for multi-select
-                const continueBtn = document.createElement('button');
-                continueBtn.type = 'button';
-                continueBtn.className = 'option-button';
-                continueBtn.style.marginTop = '10px';
-                continueBtn.style.backgroundColor = 'var(--primary)';
-                continueBtn.style.color = 'white';
-                continueBtn.textContent = 'Continue';
-                
-                continueBtn.addEventListener('click', function() {
-                    const selectedOptions = [];
-                    optionsContainer.querySelectorAll('.option-button.selected').forEach(btn => {
-                        selectedOptions.push(btn.textContent);
-                    });
-                    
-                    if (selectedOptions.length > 0) {
-                        handleUserResponse(selectedOptions.join(', '));
-                    } else {
-                        alert('Please select at least one option.');
-                    }
+        } else {
+            button.addEventListener('click', function() {
+                // For single select, remove selection from all buttons
+                optionsContainer.querySelectorAll('.option-button').forEach(btn => {
+                    btn.classList.remove('selected');
                 });
+                button.classList.add('selected');
                 
-                optionsContainer.appendChild(continueBtn);
-            }
-            
-            return optionsContainer;
+                // For single select options, submit automatically after selection
+                if (field !== 'websiteGoals' && field !== 'features') {
+                    setTimeout(() => {
+                        const selectedOption = button.textContent;
+                        handleUserResponse(selectedOption);
+                    }, 500);
+                }
+            });
         }
         
-        function createBudgetSlider(min, max, step, defaultValue) {
-            const sliderContainer = document.createElement('div');
-            sliderContainer.className = 'budget-slider-container';
-            
-            const valueDisplay = document.createElement('div');
-            valueDisplay.className = 'budget-value';
-            valueDisplay.textContent = `£${defaultValue.toLocaleString()}`;
-            
-            const slider = document.createElement('input');
-            slider.type = 'range';
-            slider.min = min;
-            slider.max = max;
-            slider.step = step;
-            slider.value = defaultValue;
-            slider.className = 'budget-slider';
-            
-            slider.addEventListener('input', function() {
-                valueDisplay.textContent = `£${parseInt(slider.value).toLocaleString()}`;
-            });
-            
-            const labels = document.createElement('div');
-            labels.className = 'budget-labels';
-            labels.innerHTML = `
-                <span>£${min.toLocaleString()}</span>
-                <span>£${max.toLocaleString()}+</span>
-            `;
-            
-            const confirmBtn = document.createElement('button');
-            confirmBtn.type = 'button';
-            confirmBtn.className = 'submit-btn';
-            confirmBtn.style.marginTop = '20px';
-            confirmBtn.style.width = '100%';
-            confirmBtn.textContent = 'Confirm Budget';
-            
-            confirmBtn.addEventListener('click', function() {
-                handleUserResponse(slider.value);
-            });
-            
-            sliderContainer.appendChild(valueDisplay);
-            sliderContainer.appendChild(slider);
-            sliderContainer.appendChild(labels);
-            sliderContainer.appendChild(confirmBtn);
-            
-            return sliderContainer;
-        }
+        optionsContainer.appendChild(button);
+    });
+    
+    if (isMultiSelect) {
+        // Add a "Continue" button for multi-select
+        const continueBtn = document.createElement('button');
+        continueBtn.type = 'button';
+        continueBtn.className = 'option-button';
+        continueBtn.style.marginTop = '10px';
+        continueBtn.style.backgroundColor = 'var(--primary)';
+        continueBtn.style.color = 'white';
+        continueBtn.textContent = 'Continue';
         
-        function askQuestion() {
-            if (currentQuestionIndex < questions.length) {
-                updateProgressBar();
-                
-                const currentQuestion = questions[currentQuestionIndex];
-                const typingIndicator = displayTypingIndicator();
-                
-                setTimeout(() => {
-                    removeTypingIndicator();
-                    
-                    const questionText = formatQuestionText(currentQuestion.text);
-                    const messageElement = displayMessage('ai', questionText);
-                    
-                    // For questions with options, add option buttons
-                    if (currentQuestion.type === 'options' || currentQuestion.type === 'multiselect') {
-                        const isMultiSelect = currentQuestion.type === 'multiselect';
-                        const optionsContainer = createOptionButtons(
-                            currentQuestion.options, 
-                            isMultiSelect,
-                            currentQuestion.field
-                        );
-                        messageElement.appendChild(optionsContainer);
-                    } else if (currentQuestion.type === 'slider') {
-                        const sliderContainer = createBudgetSlider(
-                            currentQuestion.min,
-                            currentQuestion.max,
-                            currentQuestion.step,
-                            currentQuestion.defaultValue
-                        );
-                        messageElement.appendChild(sliderContainer);
-                    }
-                    
-                    chatLog.scrollTop = chatLog.scrollHeight;
-                }, 1500);
+        continueBtn.addEventListener('click', function() {
+            const selectedOptions = [];
+            optionsContainer.querySelectorAll('.option-button.selected').forEach(btn => {
+                selectedOptions.push(btn.textContent);
+            });
+            
+            if (selectedOptions.length > 0) {
+                handleUserResponse(selectedOptions.join(', '));
             } else {
-                displaySummary();
+                alert('Please select at least one option.');
             }
-        }
+        });
         
-        function handleUserResponse(response) {
-            const currentQuestion = questions[currentQuestionIndex];
+        optionsContainer.appendChild(continueBtn);
+    }
+    
+    return optionsContainer;
+}
+
+function createBudgetSlider(min, max, step, defaultValue) {
+    const sliderContainer = document.createElement('div');
+    sliderContainer.className = 'budget-slider-container';
+    
+    const valueDisplay = document.createElement('div');
+    valueDisplay.className = 'budget-value';
+    valueDisplay.textContent = `£${defaultValue.toLocaleString()}`;
+    
+    const slider = document.createElement('input');
+    slider.type = 'range';
+    slider.min = min;
+    slider.max = max;
+    slider.step = step;
+    slider.value = defaultValue;
+    slider.className = 'budget-slider';
+    
+    slider.addEventListener('input', function() {
+        valueDisplay.textContent = `£${parseInt(slider.value).toLocaleString()}`;
+    });
+    
+    const labels = document.createElement('div');
+    labels.className = 'budget-labels';
+    labels.innerHTML = `
+        <span>£${min.toLocaleString()}</span>
+        <span>£${max.toLocaleString()}+</span>
+    `;
+    
+    const confirmBtn = document.createElement('button');
+    confirmBtn.type = 'button';
+    confirmBtn.className = 'submit-btn';
+    confirmBtn.style.marginTop = '20px';
+    confirmBtn.style.width = '100%';
+    confirmBtn.textContent = 'Confirm Budget';
+    
+    confirmBtn.addEventListener('click', function() {
+        handleUserResponse(slider.value);
+    });
+    
+    sliderContainer.appendChild(valueDisplay);
+    sliderContainer.appendChild(slider);
+    sliderContainer.appendChild(labels);
+    sliderContainer.appendChild(confirmBtn);
+    
+    return sliderContainer;
+}
+
+function askQuestion() {
+    if (currentQuestionIndex < questions.length) {
+        updateProgressBar();
+        
+        const currentQuestion = questions[currentQuestionIndex];
+        const typingIndicator = displayTypingIndicator();
+        
+        setTimeout(() => {
+            removeTypingIndicator();
             
-            // Validate response if validation function exists
-            if (currentQuestion.validation && !currentQuestion.validation(response)) {
+            const questionText = formatQuestionText(currentQuestion.text);
+            const messageElement = displayMessage('ai', questionText);
+            
+            // For questions with options, add option buttons
+            if (currentQuestion.type === 'options' || currentQuestion.type === 'multiselect') {
+                const isMultiSelect = currentQuestion.type === 'multiselect';
+                const optionsContainer = createOptionButtons(
+                    currentQuestion.options, 
+                    isMultiSelect,
+                    currentQuestion.field
+                );
+                messageElement.appendChild(optionsContainer);
+            } else if (currentQuestion.type === 'slider') {
+                const sliderContainer = createBudgetSlider(
+                    currentQuestion.min,
+                    currentQuestion.max,
+                    currentQuestion.step,
+                    currentQuestion.defaultValue
+                );
+                messageElement.appendChild(sliderContainer);
+            }
+            
+            chatLog.scrollTop = chatLog.scrollHeight;
+        }, 1500);
+    } else {
+        displaySummary();
+    }
+}
+
+function handleUserResponse(response) {
+    const currentQuestion = questions[currentQuestionIndex];
+    
+    // Validate response if validation function exists
+    if (currentQuestion.validation && !currentQuestion.validation(response)) {
+        const typingIndicator = displayTypingIndicator();
+        
+        setTimeout(() => {
+            removeTypingIndicator();
+            displayMessage('ai', currentQuestion.errorMessage || "Please provide a valid response.");
+        }, 1000);
+        
+        return;
+    }
+    
+    // Store response in userData
+    if (currentQuestion.field) {
+        userData[currentQuestion.field] = response;
+    }
+    
+    // Display user's response in chat
+    displayMessage('user', response);
+    
+    // Move to next question
+    currentQuestionIndex++;
+    askQuestion();
+}
+
+function displaySummary() {
+    updateProgressBar();
+    const typingIndicator = displayTypingIndicator();
+    
+    setTimeout(() => {
+        removeTypingIndicator();
+        
+        const summary = `
+            <h3>Please confirm your information!</h3>
+            <p>Here's a summary of what you've shared with us:</p>
+            <ul style="padding-left: 20px; margin: 10px 0;">
+                <li><strong>Name:</strong> ${userData.name}</li>
+                <li><strong>Email:</strong> ${userData.email}</li>
+                <li><strong>Phone:</strong> ${userData.phone}</li>
+                <li><strong>Business:</strong> ${userData.businessName}</li>
+                <li><strong>Industry:</strong> ${userData.businessType}</li>
+                <li><strong>Monthly Revenue:</strong> ${userData.monthlyRevenue}</li>
+                <li><strong>Website Goals:</strong> ${userData.websiteGoals}</li>
+                <li><strong>Timeline:</strong> ${userData.timeline}</li>
+                <li><strong>Budget:</strong> £${parseInt(userData.budget).toLocaleString()}</li>
+                <li><strong>Desired Features:</strong> ${userData.features}</li>
+                ${userData.existingWebsite ? `<li><strong>Existing Website:</strong> ${userData.existingWebsite}</li>` : ''}
+                ${userData.competitorWebsites ? `<li><strong>Competitor Websites:</strong> ${userData.competitorWebsites}</li>` : ''}
+                ${userData.additionalInfo ? `<li><strong>Additional Info:</strong> ${userData.additionalInfo}</li>` : ''}
+            </ul>
+            <p>Based on your requirements, we'll create a custom proposal for your project. Our team will contact you shortly to discuss next steps.</p>
+            <p>Is this information correct? If so, please click the Submit button below to send your request.</p>
+        `;
+        
+        displayMessage('ai', summary);
+        
+        // Create submit button
+        const submitContainer = document.createElement('div');
+        submitContainer.className = 'submit-container';
+        
+        const submitBtn = document.createElement('button');
+        submitBtn.className = 'submit-btn';
+        submitBtn.textContent = 'Submit Request';
+        submitBtn.onclick = submitForm;
+        
+        submitContainer.appendChild(submitBtn);
+        chatLog.appendChild(submitContainer);
+        chatLog.scrollTop = chatLog.scrollHeight;
+    }, 2000);
+}
+
+function submitForm() {
+    // Create a hidden form to submit the data
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = 'https://formspree.io/f/xanwvway';
+    form.target = 'hidden-iframe';
+    form.style.display = 'none';
+    
+    // Add all user data as form fields
+    for (const [key, value] of Object.entries(userData)) {
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.name = key;
+        input.value = value;
+        form.appendChild(input);
+    }
+    
+    // Add the form to the document and submit it
+    document.body.appendChild(form);
+    
+    const submitButton = document.querySelector('.submit-btn');
+    submitButton.textContent = 'Submitting...';
+    submitButton.disabled = true;
+    
+    // Submit the form
+    form.submit();
+    
+    // Show success message after a delay
+    setTimeout(() => {
+        const typingIndicator = displayTypingIndicator();
+        
+        setTimeout(() => {
+            removeTypingIndicator();
+            displayMessage('ai', `<h3>Thank you, ${userData.name}!</h3>
+            <p>Your request has been submitted successfully. One of our team members will contact you shortly to discuss your project in detail.</p>
+            <p>Based on your budget of £${parseInt(userData.budget).toLocaleString()}, we'll prepare a tailored proposal that meets your specific needs and goals.</p>
+            <p>In the meantime, feel free to explore our <a href="portfolio.html" style="color: var(--primary);">portfolio</a> to see some of our previous work.</p>`);
+            
+            // Remove submit button
+            const submitContainer = document.querySelector('.submit-container');
+            if (submitContainer) {
+                submitContainer.remove();
+            }
+            
+            // Disable input
+            userInput.disabled = true;
+            document.getElementById('submit-button').disabled = true;
+            
+            // Remove the form from the document
+            document.body.removeChild(form);
+        }, 2000);
+    }, 1500);
+    
+    // Handle potential errors
+    const iframe = document.getElementById('hidden-iframe');
+    iframe.onload = function() {
+        try {
+            // If we can access the iframe content, it might be an error page
+            const iframeContent = iframe.contentDocument || iframe.contentWindow.document;
+            
+            // Check if there's an error message in the iframe content
+            if (iframeContent && iframeContent.body.textContent.includes('error')) {
+                // Show error message
                 const typingIndicator = displayTypingIndicator();
                 
                 setTimeout(() => {
                     removeTypingIndicator();
-                    displayMessage('ai', currentQuestion.errorMessage || "Please provide a valid response.");
-                }, 1000);
-                
-                return;
-            }
-            
-            // Store response in userData
-            if (currentQuestion.field) {
-                userData[currentQuestion.field] = response;
-            }
-            
-            // Display user's response in chat
-            displayMessage('user', response);
-            
-            // Move to next question
-            currentQuestionIndex++;
-            askQuestion();
-        }
-        
-        function displaySummary() {
-            updateProgressBar();
-            const typingIndicator = displayTypingIndicator();
-            
-            setTimeout(() => {
-                removeTypingIndicator();
-                
-                const summary = `
-                    <h3>Please confirm your information!</h3>
-                    <p>Here's a summary of what you've shared with us:</p>
-                    <ul style="padding-left: 20px; margin: 10px 0;">
-                        <li><strong>Name:</strong> ${userData.name}</li>
-                        <li><strong>Email:</strong> ${userData.email}</li>
-                        <li><strong>Phone:</strong> ${userData.phone}</li>
-                        <li><strong>Business:</strong> ${userData.businessName}</li>
-                        <li><strong>Industry:</strong> ${userData.businessType}</li>
-                        <li><strong>Monthly Revenue:</strong> ${userData.monthlyRevenue}</li>
-                        <li><strong>Website Goals:</strong> ${userData.websiteGoals}</li>
-                        <li><strong>Timeline:</strong> ${userData.timeline}</li>
-                        <li><strong>Budget:</strong> £${parseInt(userData.budget).toLocaleString()}</li>
-                        <li><strong>Desired Features:</strong> ${userData.features}</li>
-                        ${userData.existingWebsite ? `<li><strong>Existing Website:</strong> ${userData.existingWebsite}</li>` : ''}
-                        ${userData.competitorWebsites ? `<li><strong>Competitor Websites:</strong> ${userData.competitorWebsites}</li>` : ''}
-                        ${userData.additionalInfo ? `<li><strong>Additional Info:</strong> ${userData.additionalInfo}</li>` : ''}
-                    </ul>
-                    <p>Based on your requirements, we'll create a custom proposal for your project. Our team will contact you shortly to discuss next steps.</p>
-                    <p>Is this information correct? If so, please click the Submit button below to send your request.</p>
-                `;
-                
-                displayMessage('ai', summary);
-                
-                // Create submit button
-                const submitContainer = document.createElement('div');
-                submitContainer.className = 'submit-container';
-                
-                const submitBtn = document.createElement('button');
-                submitBtn.className = 'submit-btn';
-                submitBtn.textContent = 'Submit Request';
-                submitBtn.onclick = submitForm;
-                
-                submitContainer.appendChild(submitBtn);
-                chatLog.appendChild(submitContainer);
-                chatLog.scrollTop = chatLog.scrollHeight;
-            }, 2000);
-        }
-        
-        function submitForm() {
-            // Create a hidden form to submit the data
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = 'https://formspree.io/f/xanwvway';
-            form.target = 'hidden-iframe';
-            form.style.display = 'none';
-            
-            // Add all user data as form fields
-            for (const [key, value] of Object.entries(userData)) {
-                const input = document.createElement('input');
-                input.type = 'text';
-                input.name = key;
-                input.value = value;
-                form.appendChild(input);
-            }
-            
-            // Add the form to the document and submit it
-            document.body.appendChild(form);
-            
-            const submitButton = document.querySelector('.submit-btn');
-            submitButton.textContent = 'Submitting...';
-            submitButton.disabled = true;
-            
-            // Submit the form
-            form.submit();
-            
-            // Show success message after a delay
-            setTimeout(() => {
-                const typingIndicator = displayTypingIndicator();
-                
-                setTimeout(() => {
-                    removeTypingIndicator();
-                    displayMessage('ai', `<h3>Thank you, ${userData.name}!</h3>
-                    <p>Your request has been submitted successfully. One of our team members will contact you shortly to discuss your project in detail.</p>
-                    <p>Based on your budget of £${parseInt(userData.budget).toLocaleString()}, we'll prepare a tailored proposal that meets your specific needs and goals.</p>
-                    <p>In the meantime, feel free to explore our <a href="portfolio.html" style="color: var(--primary);">portfolio</a> to see some of our previous work.</p>`);
+                    displayMessage('ai', 'Sorry, there was an error submitting your request. Please try again or contact us directly at info@webvision.click');
                     
-                    // Remove submit button
-                    const submitContainer = document.querySelector('.submit-container');
-                    if (submitContainer) {
-                        submitContainer.remove();
-                    }
-                    
-                    // Disable input
-                    userInput.disabled = true;
-                    document.getElementById('submit-button').disabled = true;
-                    
-                    // Remove the form from the document
-                    document.body.removeChild(form);
+                    submitButton.textContent = 'Submit Request';
+                    submitButton.disabled = false;
                 }, 2000);
-            }, 1500);
-            
-            // Handle potential errors
-            const iframe = document.getElementById('hidden-iframe');
-            iframe.onload = function() {
-                try {
-                    // If we can access the iframe content, it might be an error page
-                    const iframeContent = iframe.contentDocument || iframe.contentWindow.document;
-                    
-                    // Check if there's an error message in the iframe content
-                    if (iframeContent && iframeContent.body.textContent.includes('error')) {
-                        // Show error message
-                        const typingIndicator = displayTypingIndicator();
-                        
-                        setTimeout(() => {
-                            removeTypingIndicator();
-                            displayMessage('ai', 'Sorry, there was an error submitting your request. Please try again or contact us directly at info@webvision.click');
-                            
-                            submitButton.textContent = 'Submit Request';
-                            submitButton.disabled = false;
-                        }, 2000);
-                    }
-                } catch (e) {
-                    // Cross-origin errors are expected and can be ignored
-                    // This usually means the submission was successful
-                }
-            };
+            }
+        } catch (e) {
+            // Cross-origin errors are expected and can be ignored
+            // This usually means the submission was successful
+        }
+    };
+}
+
+// Send message when pressing Enter key
+userInput.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        const userInputText = userInput.value.trim();
+        if (userInputText !== '') {
+            handleUserResponse(userInputText);
+            userInput.value = '';
+        }
+    }
+});
+
+submitButton.addEventListener('click', () => {
+    const userInputText = userInput.value.trim();
+    if (userInputText !== '') {
+        handleUserResponse(userInputText);
+        userInput.value = '';
+    }
+});
+
+// Set current year in footer
+document.getElementById('current-year').textContent = new Date().getFullYear();
+
+// Start the conversation
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        askQuestion();
+    }, 3500); // Start after loading screen is hidden
+});
+
+// Form Auto-Capture Script
+(function() {
+    // Store form data as it's being entered
+    const formData = {};
+    
+    // Track if enough meaningful data has been entered to justify saving
+    let hasEnoughData = false;
+    
+    // Function to check if we have enough meaningful data
+    function checkDataQuality() {
+        // Consider we have enough data if we have at least name and either email or phone
+        const hasName = formData.name && formData.name.length > 2;
+        const hasEmail = formData.email && formData.email.includes('@');
+        const hasPhone = formData.phone && formData.phone.length > 5;
+        
+        hasEnoughData = hasName && (hasEmail || hasPhone);
+        return hasEnoughData;
+    }
+    
+    // Watch for changes to userData object by hooking into the handleUserResponse function
+    const originalHandleUserResponse = handleUserResponse;
+    handleUserResponse = function(response) {
+        // Call the original function first
+        originalHandleUserResponse(response);
+        
+        // After the response is processed and userData is updated
+        // Update our formData object with the latest userData
+        for (const key in userData) {
+            if (userData[key] && userData[key] !== '') {
+                formData[key] = userData[key];
+            }
         }
         
-        // Send message when pressing Enter key
-        userInput.addEventListener('keydown', (event) => {
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                const userInputText = userInput.value.trim();
-                if (userInputText !== '') {
-                    handleUserResponse(userInputText);
-                    userInput.value = '';
+        // Check if we have enough data
+        checkDataQuality();
+        
+        // Optional: Save to localStorage as backup
+        if (hasEnoughData) {
+            localStorage.setItem('formPartialData', JSON.stringify(formData));
+        }
+    };
+    
+    // Function to send data
+    function sendPartialData() {
+        if (!hasEnoughData) return; // Don't send if we don't have enough meaningful data
+        
+        // Use navigator.sendBeacon for more reliable sending during page unload
+        if (navigator.sendBeacon) {
+            const formDataToSend = new FormData();
+            
+            // Add all form data fields
+            for (const [key, value] of Object.entries(formData)) {
+                formDataToSend.append(key, value);
+            }
+            
+            // Add metadata
+            formDataToSend.append('_subject', 'Partial Form Submission');
+            formDataToSend.append('partialSubmission', 'true');
+            formDataToSend.append('timestamp', new Date().toISOString());
+            formDataToSend.append('url', window.location.href);
+            
+            navigator.sendBeacon('https://formspree.io/f/xanwvway', formDataToSend);
+        } else {
+            // Fallback to fetch with keepalive
+            fetch('https://formspree.io/f/xanwvway', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    ...formData,
+                    _subject: "Partial Form Submission",
+                    partialSubmission: true,
+                    timestamp: new Date().toISOString(),
+                    url: window.location.href
+                }),
+                keepalive: true
+            }).catch(err => console.error('Error sending partial form data:', err));
+        }
+        
+        // Clear localStorage after sending
+        localStorage.removeItem('formPartialData');
+    }
+    
+    // Listen for page unload/close
+    window.addEventListener('beforeunload', function() {
+        if (hasEnoughData) {
+            sendPartialData();
+        }
+    });
+    
+    // Also send data on tab visibility change (user switching tabs)
+    document.addEventListener('visibilitychange', function() {
+        if (document.visibilityState === 'hidden' && hasEnoughData) {
+            sendPartialData();
+        }
+    });
+    
+    // Check if we have stored data from a previous session
+    const storedData = localStorage.getItem('formPartialData');
+    if (storedData) {
+        try {
+            const parsedData = JSON.parse(storedData);
+            
+            // Pre-fill userData with stored data
+            for (const key in parsedData) {
+                if (parsedData.hasOwnProperty(key)) {
+                    formData[key] = parsedData[key];
                 }
             }
-        });
-        
-        submitButton.addEventListener('click', () => {
-            const userInputText = userInput.value.trim();
-            if (userInputText !== '') {
-                handleUserResponse(userInputText);
-                userInput.value = '';
-            }
-        });
-        
-        // Set current year in footer
-        document.getElementById('current-year').textContent = new Date().getFullYear();
-        
-        // Start the conversation
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                askQuestion();
-            }, 3500); // Start after loading screen is hidden
-        });
+            
+            checkDataQuality();
+        } catch (e) {
+            console.error('Error parsing stored form data:', e);
+            localStorage.removeItem('formPartialData');
+        }
+    }
+})();
     </script>
 </body>
 </html>
